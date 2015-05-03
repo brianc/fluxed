@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+<head>
+  <title>Mocha tests</title>
+  <link rel="stylesheet" type="text/css" href="/node_modules/mocha/mocha.css" />
+</head>
+<body>
+  <div id="mocha"></div>
+</body>
+<script src="/node_modules/mocha/mocha.js"></script>
+<script src="/jspm_packages/system.js"></script>
+<script src="/config.js"></script>
+<script>
+  mocha.setup('bdd');
+  System.import('test/index').then(function() {
+    mocha.run();
+  });
+</script>
+</html>

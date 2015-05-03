@@ -1,0 +1,28 @@
+{
+  "name": "fluxed",
+  "version": "0.6.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha",
+    "postinstall": "./node_modules/.bin/jspm install"
+  },
+  "author": "Brian M. Carlson",
+  "license": "MIT",
+  "jspm": {
+    "devDependencies": {
+      "babel": "npm:babel-core@^5.1.13",
+      "babel-runtime": "npm:babel-runtime@^5.1.13",
+      "core-js": "npm:core-js@^0.9.4",
+      "expect.js": "npm:expect.js@^0.3.1"
+    }
+  },
+  "devDependencies": {
+    "babel": "^5.1.13",
+    "babel-core": "^5.1.13",
+    "expect.js": "^0.3.1",
+    "jspm": "^0.15.4",
+    "mocha": "^2.2.4",
+    "systemjs": "^0.16.9"
+  }
+}
