@@ -31,10 +31,11 @@ Bus.prototype.mixin = {
     if (!this.on) {
       return;
     }
-    this.on.__off = [];
+    var offs = [];
     Object.keys(this.on).forEach(function(key) {
-      this.on.__off.push(bus.on(key, this.on[key].bind(this)));
+      offs.push(bus.on(key, this.on[key].bind(this)));
     }.bind(this));
+    this.on.__off = offs;
   },
   componentWillUnmount: function() {
     if (!this.on) {
