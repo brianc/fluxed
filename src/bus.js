@@ -26,27 +26,6 @@ Bus.prototype.emit = function(topic, message) {
   });
 };
 
-Bus.prototype.mixin = {
-  componentWillMount: function() {
-    if (!this.on) {
-      return;
-    }
-    var offs = [];
-    Object.keys(this.on).forEach(function(key) {
-      offs.push(bus.on(key, this.on[key].bind(this)));
-    }.bind(this));
-    this.on.__off = offs;
-  },
-  componentWillUnmount: function() {
-    if (!this.on) {
-      return;
-    }
-    this.on.__off.forEach(function(off) {
-      off();
-    });
-  }
-};
-
 var bus = new Bus();
 bus.Bus = Bus;
 module.exports = bus;

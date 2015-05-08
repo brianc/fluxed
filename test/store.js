@@ -3,6 +3,13 @@ var bus = require('../src/bus');
 import build from '../src/store';
 import expect from 'expect.js';
 
+describe('modules', function() {
+  it('import correctly', function() {
+    expect(bus).to.be(require('../').bus);
+    expect(build).to.be(require('../').store);
+  });
+});
+
 describe('store builder', function() {
   it('builds a store', function() {
     let store = build('test', {
@@ -91,9 +98,9 @@ describe('store builder', function() {
         done();
       }, 10);
     });
-    store.setState({name: 'foo1'})
-    store.setState({name: 'foo2'})
-    store.setState({name: 'foo3'})
+    store.setState({name: 'foo1'});
+    store.setState({name: 'foo2'});
+    store.setState({name: 'foo3'});
   });
 
   it('round-trips', function(done) {
@@ -102,7 +109,7 @@ describe('store builder', function() {
       on: {
         'name-change'(msg) {
           let name = msg.name;
-          this.setState({ name })
+          this.setState({ name });
         }
       }
     });

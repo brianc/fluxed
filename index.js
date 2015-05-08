@@ -1,1 +1,4 @@
-module.exports = require('./src/index');
+module.exports = {
+  bus: require('./src/bus'),
+  store: require('./src/store')
+};
