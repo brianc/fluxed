@@ -28,4 +28,4 @@ Bus.prototype.emit = function(topic, message) {
 
 var bus = new Bus();
 bus.Bus = Bus;
-module.exports = bus;
+export default bus;

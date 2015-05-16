@@ -1,4 +1,4 @@
-var bus = require('./bus');
+import bus from './bus';
 
 //store constructor
 //requires the name of the store and a config
@@ -94,6 +94,6 @@ Store.prototype.destroy = function() {
   });
 };
 
-module.exports = function(name, config) {
+export default function(name, config) {
   return new Store(name, config);
 };
