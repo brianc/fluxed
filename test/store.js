@@ -1,14 +1,5 @@
-var bus = require('../src/bus');
-
-import build from '../src/store';
+import { bus, store as build } from '../index';
 import expect from 'expect.js';
-
-describe('modules', function() {
-  it('import correctly', function() {
-    expect(bus).to.be(require('../').bus);
-    expect(build).to.be(require('../').store);
-  });
-});
 
 describe('store builder', function() {
   it('builds a store', function() {

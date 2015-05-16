@@ -1,5 +1,5 @@
 import expect from 'expect.js';
-var bus = require('../src/bus');
+import { bus } from '../index';
 
 var Bus = bus.Bus;
 

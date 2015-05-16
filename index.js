@@ -1,4 +1,4 @@
-module.exports = {
-  bus: require('./src/bus'),
-  store: require('./src/store')
-};
+import bus from './src/bus';
+import store from './src/store';
+
+export { bus, store };
