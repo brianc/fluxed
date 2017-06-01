@@ -35,7 +35,7 @@ There. No action creators, constants, reducers, thunks, selectors, etc. Just a s
 That's really all you _need_ for flux. To manually hook this store up to a component it would look something like this contrived example:
 
 ```js
-import React, { Component } from 'react
+import React, { Component } from 'react'
 import MyStore from './store'
 
 const store = new MyStore()
@@ -82,11 +82,13 @@ class Login extends Component {
 
 That's it!
 
-#### But wait...
+### But wait...
 
-One thing that's not nice about the example above is the `Login` component is coupled directly to an instance of the store. We lose out on a lot of compsability and reusability because everywhere the `Login` component goes it takes with it its own instance of `MyStore`.  We could instantiate `MyStore` in a different file and require that file & it's single instance in the `Login` component so we could share the single store instance with other components, but each component would still be referencing the store directly both when subscribing/unsubscribing to the store, and when calling actions on the store.
+One thing that's not nice about the example above is the `Login` component is coupled directly to an instance of the store. We lose out on a lot of compsability and reusability because everywhere the `Login` component goes it takes with it its own instance of `MyStore`.  
 
-### <Provider /> & connect
+We _could_ instantiate `MyStore` in a different file and require that file & it's single instance in the `Login` component.  That way we could share the single store instance with other components in our app; however, each component would still be referencing the store directly both when subscribing/unsubscribing to the store, and when calling actions on the store.
+
+### Provider & connect
 
 If you're familiar with react-redux we've copied the concepts of its "dependency injection" here.  We can "connect" our components to a store instance "provided" to the component hierarchy.  It looks like this:
 
@@ -94,7 +96,7 @@ If you're familiar with react-redux we've copied the concepts of its "dependency
 import React, { Component } from 'react'
 import { Provider, connect, Store } from 'fluxed'
 
-class MyStore extends Store {
+class NameStore extends Store {
   state = { 
     isNameValid: true,
     name: 'foo',
@@ -107,7 +109,7 @@ class MyStore extends Store {
   }
 }
 
-const store = new MyStore()
+const store = new NameStore()
 
 // this is our main 'app' component
 class App extends Component {
