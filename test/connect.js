@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { expect } from 'chai'
 import { mount } from 'enzyme'
 
-import { Store, connect } from '../'
+import { Store, connect } from '../src'
 
 
 class Thing extends Component {

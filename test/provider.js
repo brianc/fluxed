@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { expect } from 'chai'
 import { mount } from 'enzyme'
 
-import { Store, connect, Provider } from '../'
+import { Store, connect, Provider } from '../src'
 
 class Thing extends Component {
   static myStatic = () => true

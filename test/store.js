@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 
-import { Store } from '../'
+import { Store } from '../src'
 
 describe('store', () => {
   it('can get and set state', () => {

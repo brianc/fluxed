@@ -2,14 +2,18 @@
   "name": "fluxed",
   "version": "2.0.0",
   "description": "Like redux, but simple.",
-  "main": "index.js",
+  "main": "dist/index.js",
   "repository": "https://github.com/brianc/fluxed.git",
   "author": "Brian M. Carlson",
   "license": "MIT",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "build": "babel src --out-dir dist",
+    "prepublish": "npm run build"
   },
   "devDependencies": {
+    "babel": "6.23.0",
+    "babel-cli": "6.24.1",
     "babel-preset-es2015": "6.24.1",
     "babel-preset-react": "6.24.1",
     "babel-preset-stage-2": "6.24.1",
