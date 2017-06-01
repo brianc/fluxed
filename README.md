@@ -186,13 +186,18 @@ Subscribes a callback to the store which will be called with the new store state
 
 The current state of the store.  You should avoid accessing this externally, but can be useful in store methods to check the existing state & computing new state from it.
 
-### connect() => ((component: ReactComponent) => connectedComponent: ReactComponent)
+### connect
+
+```flow
+// flowtype type signature
+() => ((component: ReactComponent) => connectedComponent: ReactComponent)
+```
 
 Connect is a function that takes no arguments.  It returns a function which takes an a React `component` and returns a higher-order React `connectedComponent` which "connects" instances of the `component` to the store automatically.  The store's state and the store's methods will both be passed into the `component` instance as `props`.  Locally supplied props to the `component` will take precedence over any comming from the connected store.
 
 _note: react-redux has `mapStateToProps` and `mapDispatchToProps` as arguemnts to its `connect()` function.  Fluxed doesn't have that at this time._
 
-### <Provider />
+### Provider
 
 `<Provider />` is a higher-order component which has a required `store` property.  Internally provider sets the supplied `store` on the [context](https://facebook.github.io/react/docs/context.html) allowing any component created via `connect` to access the store given to the `<Provider />` regardless of where the connected components live within the component hierarchy.
 
