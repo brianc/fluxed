@@ -1,6 +1,6 @@
 # fluxed
 
-A very small flux implementation with the same React bindings as react-redux.
+A very small flux-like state container with the same React bindings as react-redux.
 
 ## Example
 
