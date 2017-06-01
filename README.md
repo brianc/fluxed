@@ -206,6 +206,10 @@ Connect is a function that takes no arguments.  It returns a function which take
 
 _note: react-redux has `mapStateToProps` and `mapDispatchToProps` as arguemnts to its `connect()` function.  Fluxed doesn't have that at this time._
 
+## TODO
+
+- a way to combine multiple stores or provide multiple stores into connected components.  Using some form of `mapStateToProps` approach.
+
 # License
 
 Copyright (c) 2017 ShipStation
