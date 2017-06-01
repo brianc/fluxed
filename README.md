@@ -90,7 +90,7 @@ We _could_ instantiate `MyStore` in a different file and require that file & it'
 
 ### Provider & connect
 
-If you're familiar with react-redux we've copied the concepts of its "dependency injection" here.  We can "connect" our components to a store instance "provided" to the component hierarchy.  It looks like this:
+If you're familiar with react-redux we've copied the concepts of its "dependency injection" here.  We can "connect" our components to a store instance "provided" to the component hierarchy via the `<Provider />` component.  It looks like this:
 
 ```jsx
 import React, { Component } from 'react'
@@ -114,12 +114,15 @@ const store = new NameStore()
 // this is our main 'app' component
 class App extends Component {
   render() {
-    // we 'provide' the store instance to sub-components
+    // we 'provide' the store instance to all sub-components
+    // anywhere they are in the component hierarchy under Provider
     return (
       <Provider store={store}>
         <div>
           <NavBar />
-          <Content />
+          <div>
+            <Content />
+          </div>
           <Footer />
         </div>
       </Provider>
@@ -186,6 +189,12 @@ Subscribes a callback to the store which will be called with the new store state
 
 The current state of the store.  You should avoid accessing this externally, but can be useful in store methods to check the existing state & computing new state from it.
 
+### Provider
+
+`<Provider />` is a higher-order component which has a required `store` property.  Internally provider sets the supplied `store` on the [context](https://facebook.github.io/react/docs/context.html) allowing any `connectedComponent` created via `connect` to access the store given to the `<Provider />` regardless of where the connected components live within the component hierarchy.
+
+This mirrors react-redux 1:1 AFAIK.
+
 ### connect
 
 ```flow
@@ -193,15 +202,9 @@ The current state of the store.  You should avoid accessing this externally, but
 () => ((component: ReactComponent) => connectedComponent: ReactComponent)
 ```
 
-Connect is a function that takes no arguments.  It returns a function which takes an a React `component` and returns a higher-order React `connectedComponent` which "connects" instances of the `component` to the store automatically.  The store's state and the store's methods will both be passed into the `component` instance as `props`.  Locally supplied props to the `component` will take precedence over any comming from the connected store.
+Connect is a function that takes no arguments.  It returns a function which takes an a React `component` and returns a higher-order React `connectedComponent` which "connects" instances of the `component` to a provided store.  The connected store comes from whichever store is supplied as a prop to the `<Provider />` component.  _note_: the `<Provider />` component _must_ be a higher level in the dom tree than all connected components.  Commonly `<Provider />` is at or near the very top of your application's dom tree.  The store's state and the store's methods will both be passed into the `component` instance as `props`.  Locally supplied props to the `component` will take precedence over any comming from the connected store.
 
 _note: react-redux has `mapStateToProps` and `mapDispatchToProps` as arguemnts to its `connect()` function.  Fluxed doesn't have that at this time._
-
-### Provider
-
-`<Provider />` is a higher-order component which has a required `store` property.  Internally provider sets the supplied `store` on the [context](https://facebook.github.io/react/docs/context.html) allowing any component created via `connect` to access the store given to the `<Provider />` regardless of where the connected components live within the component hierarchy.
-
-This mirrors react-redux 1:1 AFAIK.
 
 # License
 
