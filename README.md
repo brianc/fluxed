@@ -6,7 +6,7 @@ A very small flux implementation with the same React bindings as react-redux.
 
 The first thing we need to manage our state is a store.  In fluxed a `Store` is a base class you should subclass.  This subclass is where you put the shared global state for your application.  Example:
 
-```js
+```jsx
 import { Store } from 'fluxed'
 
 export default class MyStore extends Store {
@@ -34,7 +34,7 @@ There. No action creators, constants, reducers, thunks, selectors, etc. Just a s
 
 That's really all you _need_ for flux. To manually hook this store up to a component it would look something like this contrived example:
 
-```js
+```jsx
 import React, { Component } from 'react'
 import MyStore from './store'
 
@@ -92,7 +92,7 @@ We _could_ instantiate `MyStore` in a different file and require that file & it'
 
 If you're familiar with react-redux we've copied the concepts of its "dependency injection" here.  We can "connect" our components to a store instance "provided" to the component hierarchy.  It looks like this:
 
-```js
+```jsx
 import React, { Component } from 'react'
 import { Provider, connect, Store } from 'fluxed'
 
