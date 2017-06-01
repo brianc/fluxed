@@ -10,7 +10,7 @@ The first thing we need to manage our state is a store.  In fluxed a `Store` is 
 import { Store } from 'fluxed'
 
 export default class MyStore extends Store {
-  state = { 
+  state = {
     userLoggedIn: false,
     isLoggingIn: false,
   }
@@ -30,7 +30,7 @@ export default class MyStore extends Store {
 }
 ```
 
-There. No action creators, constants, reducers, thunks, selectors, etc. Just a single class that you can call `setState` on to set new state.  
+There. No action creators, constants, reducers, thunks, selectors, etc. Just a single class that you can call `setState` on to set new state.
 
 That's really all you _need_ for flux. To manually hook this store up to a component it would look something like this contrived example:
 
@@ -84,7 +84,7 @@ That's it!
 
 ### But wait...
 
-One thing that's not nice about the example above is the `Login` component is coupled directly to an instance of the store. We lose out on a lot of compsability and reusability because everywhere the `Login` component goes it takes with it its own instance of `MyStore`.  
+One thing that's not nice about the example above is the `Login` component is coupled directly to an instance of the store. We lose out on a lot of composability and reusability because everywhere the `Login` component goes it takes with it its own instance of `MyStore`.
 
 We _could_ instantiate `MyStore` in a different file and require that file & it's single instance in the `Login` component.  That way we could share the single store instance with other components in our app; however, each component would still be referencing the store directly both when subscribing/unsubscribing to the store, and when calling actions on the store.
 
@@ -97,14 +97,14 @@ import React, { Component } from 'react'
 import { Provider, connect, Store } from 'fluxed'
 
 class NameStore extends Store {
-  state = { 
+  state = {
     isNameValid: true,
     name: 'foo',
   }
 
   setName(name) {
     // don't allow blank names!
-    const isNameValide = name && name.length
+    const isNameValid = name && name.length
     this.setState({ name, isNameValid })
   }
 }
@@ -133,7 +133,7 @@ class App extends Component {
 @connect
 class NavBar extends Component {
   render() {
-    // notice the state of the store is now avaialbe as props.
+    // notice the state of the store is now available as props.
     // our NavBar component has no idea the props come from the store and not
     // directly set by a parent component
     const { name, isNameValid } = this.props
@@ -204,7 +204,7 @@ This mirrors react-redux 1:1 AFAIK.
 
 Connect is a function that takes no arguments.  It returns a function which takes an a React `component` and returns a higher-order React `connectedComponent` which "connects" instances of the `component` to a provided store.  The connected store comes from whichever store is supplied as a prop to the `<Provider />` component.  _note_: the `<Provider />` component _must_ be a higher level in the dom tree than all connected components.  Commonly `<Provider />` is at or near the very top of your application's dom tree.  The store's state and the store's methods will both be passed into the `component` instance as `props`.  Locally supplied props to the `component` will take precedence over any comming from the connected store.
 
-_note: react-redux has `mapStateToProps` and `mapDispatchToProps` as arguemnts to its `connect()` function.  Fluxed doesn't have that at this time._
+_note: react-redux has `mapStateToProps` and `mapDispatchToProps` as arguments to its `connect()` function.  Fluxed doesn't have that at this time._
 
 ## TODO
 
