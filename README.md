@@ -1,12 +1,10 @@
 # fluxed
 
-A very small flux implementation with the same react bindings as react-redux.
+A very small flux implementation with the same React bindings as react-redux.
 
-## API
+## Example
 
-### Store
-
-Store is a base class you should sublcass yourself.  This is where you put the shared global state for your application.  Example:
+The first thing we need to manage our state is a store.  In fluxed a `Store` is a base class you should subclass.  This subclass is where you put the shared global state for your application.  Example:
 
 ```js
 import { Store } from 'fluxed'
@@ -32,9 +30,9 @@ export default class MyStore extends Store {
 }
 ```
 
-No action creators, constants, reducers, thunks, selectors, etc. Just a single class that you can call `setState` on to set new state.  
+There. No action creators, constants, reducers, thunks, selectors, etc. Just a single class that you can call `setState` on to set new state.  
 
-That's really all you _need_ for flux. To hook this store up to a component it would look something like this contrived example:
+That's really all you _need_ for flux. To manually hook this store up to a component it would look something like this contrived example:
 
 ```js
 import React, { Component } from 'react
@@ -90,7 +88,7 @@ One thing that's not nice about the example above is the `Login` component is co
 
 ### <Provider /> & connect
 
-If you're familiar with react-redux we've copied the concepts of its "dependency injection" here.  We can 'connect' our instance to a store "provided" to the component hierarchy up above.  It would look like so:
+If you're familiar with react-redux we've copied the concepts of its "dependency injection" here.  We can "connect" our components to a store instance "provided" to the component hierarchy.  It looks like this:
 
 ```js
 import React, { Component } from 'react'
@@ -109,10 +107,11 @@ class MyStore extends Store {
   }
 }
 
+const store = new MyStore()
+
 // this is our main 'app' component
 class App extends Component {
   render() {
-    const store = new MyStore()
     // we 'provide' the store instance to sub-components
     return (
       <Provider store={store}>
@@ -129,8 +128,8 @@ class App extends Component {
 @connect
 class NavBar extends Component {
   render() {
-    // notice the state of the store is now avaialbe as props
-    // this NavBar component has no idea the props come from the store and not
+    // notice the state of the store is now avaialbe as props.
+    // our NavBar component has no idea the props come from the store and not
     // directly set by a parent component
     const { name, isNameValid } = this.props
     const text = isNameValid ? `Hello ${name}!` : `Please enter a name`
@@ -141,9 +140,9 @@ class NavBar extends Component {
 @connect
 class Content extends Component {
   render() {
-    // notice all the methods on the store instance
-    // are passed in as props to this component
-    // the component doesn't know if it care from a parent component directly
+    // Notice all the methods on the store instance
+    // are passed in as props to this component as well.
+    // The component doesn't know or care if it came from a parent component directly
     // or from a connected store
     const { name, setName } = this.props
     return (
@@ -157,15 +156,64 @@ class Content extends Component {
 
 const Footer = connect()((props) => {
   return (
-    <div>You can connect functional components as well</div>
+    <div>You can connect functional components as well, {props.name || 'whoever you are'}!</div>
   )
 })
 
 ```
 
-The `<Provider />` and `connect` methods intentionally mirror the `react-redux` method signatures.  This is to make it easy to migrate to `react-redux` if/when you want to.  I think `fluxed` is a great way to get started & teach the concepts of flux without also having to give a long talk on functional programming concepts and introduce a lot of ceremony.
+The `<Provider />` and `connect` methods intentionally mirror the `react-redux` method signatures.  This is to make it easy to migrate to `redux` if/when you want to.  I think `fluxed` is a great way to get started & teach the concepts of flux without also having to give a long talk on functional programming concepts and introduce a lot of ceremony.
 
+## API
+
+### Store
+
+`Store` is a class. It is intended to be subclassed much like `React.Component` is subclassed.
+
+`store.setState(newState: object) => void`
+
+Used to update the state of the store.  All subscription callbacks will be synchronously called with the new state immediately after the state is updated.
+
+Keys are shallowly merged with existing store state similar to how `react.setState` works. Unlike react's `setState` this method is not async and does not batch calls.
+
+`store.subscribe(callback: (state: object) => void) => (unsubscribe: () => void)`
+
+Subscribes a callback to the store which will be called with the new store state every time the store state changes.  Returns a function you can call to remove this subscription from the store.
+
+`store.state: object`
+
+The current state of the store.  You should avoid accessing this externally, but can be useful in store methods to check the existing state & computing new state from it.
+
+### connect() => ((component: ReactComponent) => connectedComponent: ReactComponent)
+
+Connect is a function that takes no arguments.  It returns a function which takes an a React `component` and returns a higher-order React `connectedComponent` which "connects" instances of the `component` to the store automatically.  The store's state and the store's methods will both be passed into the `component` instance as `props`.  Locally supplied props to the `component` will take precedence over any comming from the connected store.
+
+_note: react-redux has `mapStateToProps` and `mapDispatchToProps` as arguemnts to its `connect()` function.  Fluxed doesn't have that at this time.
+
+### <Provider />
+
+`<Provider />` is a higher-order component which has a required `store` property.  Internally provider sets the supplied `store` on the [context](https://facebook.github.io/react/docs/context.html) allowing any component created via `connect` to access the store given to the `<Provider />` regardless of where the connected components live within the component hierarchy.
+
+This mirrors react-redux 1:1 AFAIK.
 
 # License
 
-MIT
+Copyright (c) 2017 ShipStation
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
