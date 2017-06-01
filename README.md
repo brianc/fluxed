@@ -190,7 +190,7 @@ The current state of the store.  You should avoid accessing this externally, but
 
 Connect is a function that takes no arguments.  It returns a function which takes an a React `component` and returns a higher-order React `connectedComponent` which "connects" instances of the `component` to the store automatically.  The store's state and the store's methods will both be passed into the `component` instance as `props`.  Locally supplied props to the `component` will take precedence over any comming from the connected store.
 
-_note: react-redux has `mapStateToProps` and `mapDispatchToProps` as arguemnts to its `connect()` function.  Fluxed doesn't have that at this time.
+_note: react-redux has `mapStateToProps` and `mapDispatchToProps` as arguemnts to its `connect()` function.  Fluxed doesn't have that at this time._
 
 ### <Provider />
 
